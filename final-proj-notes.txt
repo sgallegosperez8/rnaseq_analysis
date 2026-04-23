@@ -1,0 +1,62 @@
+1: USE SRA
+- use two SRNA's one with contact with soil root exodus and a control 
+- analyze a bacteria that is heavily associated with plant diversity
+- associated http:
+https://www.ncbi.nlm.nih.gov/sra/SRX32971843 and SRX32971845
+
+- was not able to run all 5, but instead just focused on a control and a treatment
+
+SRX1491235: SRR3032164 - Control 2 named as control2
+
+SRX32971843: SRR38125702 - REP 2 named as elev_temp2
+
+
+
+
+- associated paper (no associated paper)
+
+step 1 : use SRA toolkit to change from SRA to fastq
+
+from one codnition with no root exodus 
+fastq-dump -I --split-files control2
+
+second condtion with root exodus treatment
+fastq-dump -I --split-files sample2 
+
+
+step 2: assess quality of reads 
+
+- Completed qualityQC on all SRA by first splitting them.
+fastqc *.fastq -o ./fastqc-results
+
+step 3 : 
+- Ran trim-galore to auto remove adapter sequences after seeing that they were present in fastqc and add quality of 30
+and place output files in trimmed_seq directory
+
+trim_galore --paired --quality 30 ../SRA/control2_1.fastq ../SRA/control2_2.fastq
+trim_galore --paired --quality 30 ../SRA/control2_1.fastq ../SRA/control2_2.fastq
+
+
+step 4: run STAR by creating an index 
+
+STAR --runThreadN 8 \
+--runMode genomeGenerate \
+--genomeDir ./genome-index \
+--genomeFastaFiles ./ref-genome.fna \
+--sjdbGTFfile ./genomic-annotations.gtf \
+--sjdbOverhang 149
+--genomeSAindexNbases 10
+
+Gave a recommended step but did not work 
+
+STAR --runThreadN 8 \
+--runMode genomeGenerate \
+--genomeDir ./genome-index2 \
+--genomeFastaFiles ./ref-genome.fna \
+--sjdbGTFfile ./genomic-annotations.gtf \
+--sjdbOverhang 149 \ 
+--genomeSAindexNbases 10
+
+--runThreadsN 8 \
+--genomeDir ./genome-index \
+--readFilesIn ./rhizo_control_2.fastq ./rhizo_treated_2.fastq
