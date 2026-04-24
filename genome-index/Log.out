@@ -1,0 +1,78 @@
+STAR version=2.7.11b
+STAR compilation time,server,dir=2024-04-14T23:10:25+00:00 <place not set in Debian package>
+##### Command Line:
+/usr/lib/rna-star/bin/STAR-avx2 --runThreadN 8 --runMode genomeGenerate --genomeDir ./genome-index --genomeFastaFiles ./ref-genome.fna --sjdbGTFfile ./genomic.gtf --sjdbOverhang 149 --genomeSAindexNbases 10
+##### Initial USER parameters from Command Line:
+###### All USER parameters from Command Line:
+runThreadN                    8     ~RE-DEFINED
+runMode                       genomeGenerate        ~RE-DEFINED
+genomeDir                     ./genome-index     ~RE-DEFINED
+genomeFastaFiles              ./ref-genome.fna        ~RE-DEFINED
+sjdbGTFfile                   ./genomic.gtf     ~RE-DEFINED
+sjdbOverhang                  149     ~RE-DEFINED
+genomeSAindexNbases           10     ~RE-DEFINED
+##### Finished reading parameters from all sources
+
+##### Final user re-defined parameters-----------------:
+runMode                           genomeGenerate   
+runThreadN                        8
+genomeDir                         ./genome-index
+genomeFastaFiles                  ./ref-genome.fna   
+genomeSAindexNbases               10
+sjdbGTFfile                       ./genomic.gtf
+sjdbOverhang                      149
+
+-------------------------------
+##### Final effective command line:
+/usr/lib/rna-star/bin/STAR-avx2   --runMode genomeGenerate      --runThreadN 8   --genomeDir ./genome-index   --genomeFastaFiles ./ref-genome.fna      --genomeSAindexNbases 10   --sjdbGTFfile ./genomic.gtf   --sjdbOverhang 149
+----------------------------------------
+
+Number of fastq files for each mate = 1
+ParametersSolo: --soloCellFilterType CellRanger2.2 filtering parameters:  3000 0.99 10
+Finished loading and checking parameters
+--genomeDir directory exists and will be overwritten: ./genome-index/
+Apr 24 00:59:50 ... starting to generate Genome files
+./ref-genome.fna : chr # 0  "NC_002516.2" chrStart: 0
+Chromosome sequence lengths: 
+NC_002516.2	6264404
+Genome sequence total length = 6264404
+Genome size with padding = 6291456
+Apr 24 00:59:50 ..... processing annotations GTF
+Processing pGe.sjdbGTFfile=./genomic.gtf, found:
+		106 transcripts
+		106 exons (non-collapsed)
+		0 collapsed junctions
+Total junctions: 0
+Apr 24 00:59:50 ..... finished GTF processing
+
+Estimated genome size with padding and SJs: total=genome+SJ=305291456 = 6291456 + 299000000
+GstrandBit=32
+Number of SA indices: 12528808
+Apr 24 00:59:50 ... starting to sort Suffix Array. This may take a long time...
+Number of chunks: 8;   chunks size limit: 14318632 bytes
+Apr 24 00:59:50 ... sorting Suffix Array chunks and saving them to disk...
+Writing 14111032 bytes into ./genome-index//SA_0 ; empty space on disk = 34613583872 bytes ... done
+Writing 13331872 bytes into ./genome-index//SA_1 ; empty space on disk = 34599469056 bytes ... done
+Writing 14265096 bytes into ./genome-index//SA_2 ; empty space on disk = 34586136576 bytes ... done
+Writing 13882776 bytes into ./genome-index//SA_3 ; empty space on disk = 34571870208 bytes ... done
+Writing 14120720 bytes into ./genome-index//SA_4 ; empty space on disk = 34557984768 bytes ... done
+Writing 14244112 bytes into ./genome-index//SA_5 ; empty space on disk = 34543861760 bytes ... done
+Writing 14089648 bytes into ./genome-index//SA_6 ; empty space on disk = 34529615872 bytes ... done
+Writing 2185208 bytes into ./genome-index//SA_7 ; empty space on disk = 34515525632 bytes ... done
+Apr 24 00:59:53 ... loading chunks from disk, packing SA...
+Apr 24 00:59:54 ... finished generating suffix array
+Apr 24 00:59:54 ... generating Suffix Array index
+Apr 24 00:59:54 ... completed Suffix Array index
+Apr 24 00:59:54   Finished preparing junctions
+Apr 24 00:59:54 ..... finished inserting junctions into genome
+Apr 24 00:59:54 ... writing Genome to disk ...
+Writing 6291456 bytes into ./genome-index//Genome ; empty space on disk = 34613575680 bytes ... done
+SA size in bytes: 51681336
+Apr 24 00:59:54 ... writing Suffix Array to disk ...
+Writing 51681336 bytes into ./genome-index//SA ; empty space on disk = 34607284224 bytes ... done
+Apr 24 00:59:54 ... writing SAindex to disk
+Writing 8 bytes into ./genome-index//SAindex ; empty space on disk = 34555596800 bytes ... done
+Writing 88 bytes into ./genome-index//SAindex ; empty space on disk = 34555596800 bytes ... done
+Writing 6116691 bytes into ./genome-index//SAindex ; empty space on disk = 34555596800 bytes ... done
+Apr 24 00:59:54 ..... finished successfully
+DONE: Genome generation, EXITING
