@@ -357,8 +357,445 @@ display: none;
 </div>
 
 
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 4.5.2</code></pre>
+<pre><code>## Warning: package &#39;tibble&#39; was built under R version 4.5.2</code></pre>
+<pre><code>## Warning: package &#39;tidyr&#39; was built under R version 4.5.2</code></pre>
+<pre><code>## Warning: package &#39;readr&#39; was built under R version 4.5.2</code></pre>
+<pre><code>## Warning: package &#39;purrr&#39; was built under R version 4.5.2</code></pre>
+<pre><code>## Warning: package &#39;dplyr&#39; was built under R version 4.5.2</code></pre>
+<pre><code>## Warning: package &#39;lubridate&#39; was built under R version 4.5.2</code></pre>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.2.1     ✔ readr     2.2.0
+## ✔ forcats   1.0.1     ✔ stringr   1.6.0
+## ✔ ggplot2   4.0.3     ✔ tibble    3.3.1
+## ✔ lubridate 1.9.5     ✔ tidyr     1.3.2
+## ✔ purrr     1.2.2     
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<pre class="r"><code>library(DESeq2)</code></pre>
+<pre><code>## Warning: package &#39;DESeq2&#39; was built under R version 4.5.2</code></pre>
+<pre><code>## Loading required package: S4Vectors</code></pre>
+<pre><code>## Warning: package &#39;S4Vectors&#39; was built under R version 4.5.3</code></pre>
+<pre><code>## Loading required package: stats4
+## Loading required package: BiocGenerics</code></pre>
+<pre><code>## Warning: package &#39;BiocGenerics&#39; was built under R version 4.5.2</code></pre>
+<pre><code>## Loading required package: generics
+## 
+## Attaching package: &#39;generics&#39;
+## 
+## The following object is masked from &#39;package:lubridate&#39;:
+## 
+##     as.difftime
+## 
+## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     explain
+## 
+## The following objects are masked from &#39;package:base&#39;:
+## 
+##     as.difftime, as.factor, as.ordered, intersect, is.element, setdiff,
+##     setequal, union
+## 
+## 
+## Attaching package: &#39;BiocGenerics&#39;
+## 
+## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     combine
+## 
+## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     IQR, mad, sd, var, xtabs
+## 
+## The following objects are masked from &#39;package:base&#39;:
+## 
+##     anyDuplicated, aperm, append, as.data.frame, basename, cbind,
+##     colnames, dirname, do.call, duplicated, eval, evalq, Filter, Find,
+##     get, grep, grepl, is.unsorted, lapply, Map, mapply, match, mget,
+##     order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,
+##     rbind, Reduce, rownames, sapply, saveRDS, table, tapply, unique,
+##     unsplit, which.max, which.min
+## 
+## 
+## Attaching package: &#39;S4Vectors&#39;
+## 
+## The following objects are masked from &#39;package:lubridate&#39;:
+## 
+##     second, second&lt;-
+## 
+## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     first, rename
+## 
+## The following object is masked from &#39;package:tidyr&#39;:
+## 
+##     expand
+## 
+## The following object is masked from &#39;package:utils&#39;:
+## 
+##     findMatches
+## 
+## The following objects are masked from &#39;package:base&#39;:
+## 
+##     expand.grid, I, unname
+## 
+## Loading required package: IRanges</code></pre>
+<pre><code>## Warning: package &#39;IRanges&#39; was built under R version 4.5.2</code></pre>
+<pre><code>## 
+## Attaching package: &#39;IRanges&#39;
+## 
+## The following object is masked from &#39;package:lubridate&#39;:
+## 
+##     %within%
+## 
+## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     collapse, desc, slice
+## 
+## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     reduce
+## 
+## Loading required package: GenomicRanges</code></pre>
+<pre><code>## Warning: package &#39;GenomicRanges&#39; was built under R version 4.5.2</code></pre>
+<pre><code>## Loading required package: Seqinfo</code></pre>
+<pre><code>## Warning: package &#39;Seqinfo&#39; was built under R version 4.5.2</code></pre>
+<pre><code>## Loading required package: SummarizedExperiment</code></pre>
+<pre><code>## Warning: package &#39;SummarizedExperiment&#39; was built under R version 4.5.2</code></pre>
+<pre><code>## Loading required package: MatrixGenerics</code></pre>
+<pre><code>## Warning: package &#39;MatrixGenerics&#39; was built under R version 4.5.2</code></pre>
+<pre><code>## Loading required package: matrixStats
+## 
+## Attaching package: &#39;matrixStats&#39;
+## 
+## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     count
+## 
+## 
+## Attaching package: &#39;MatrixGenerics&#39;
+## 
+## The following objects are masked from &#39;package:matrixStats&#39;:
+## 
+##     colAlls, colAnyNAs, colAnys, colAvgsPerRowSet, colCollapse,
+##     colCounts, colCummaxs, colCummins, colCumprods, colCumsums,
+##     colDiffs, colIQRDiffs, colIQRs, colLogSumExps, colMadDiffs,
+##     colMads, colMaxs, colMeans2, colMedians, colMins, colOrderStats,
+##     colProds, colQuantiles, colRanges, colRanks, colSdDiffs, colSds,
+##     colSums2, colTabulates, colVarDiffs, colVars, colWeightedMads,
+##     colWeightedMeans, colWeightedMedians, colWeightedSds,
+##     colWeightedVars, rowAlls, rowAnyNAs, rowAnys, rowAvgsPerColSet,
+##     rowCollapse, rowCounts, rowCummaxs, rowCummins, rowCumprods,
+##     rowCumsums, rowDiffs, rowIQRDiffs, rowIQRs, rowLogSumExps,
+##     rowMadDiffs, rowMads, rowMaxs, rowMeans2, rowMedians, rowMins,
+##     rowOrderStats, rowProds, rowQuantiles, rowRanges, rowRanks,
+##     rowSdDiffs, rowSds, rowSums2, rowTabulates, rowVarDiffs, rowVars,
+##     rowWeightedMads, rowWeightedMeans, rowWeightedMedians,
+##     rowWeightedSds, rowWeightedVars
+## 
+## Loading required package: Biobase</code></pre>
+<pre><code>## Warning: package &#39;Biobase&#39; was built under R version 4.5.3</code></pre>
+<pre><code>## Welcome to Bioconductor
+## 
+##     Vignettes contain introductory material; view with
+##     &#39;browseVignettes()&#39;. To cite Bioconductor, see
+##     &#39;citation(&quot;Biobase&quot;)&#39;, and for packages &#39;citation(&quot;pkgname&quot;)&#39;.
+## 
+## 
+## Attaching package: &#39;Biobase&#39;
+## 
+## The following object is masked from &#39;package:MatrixGenerics&#39;:
+## 
+##     rowMedians
+## 
+## The following objects are masked from &#39;package:matrixStats&#39;:
+## 
+##     anyMissing, rowMedians</code></pre>
+<pre class="r"><code>library(ggplot2)
+library(dplyr)</code></pre>
 <div id="differential-expression-analysis" class="section level1">
 <h1>Differential Expression Analysis</h1>
+<div id="data-upload" class="section level2">
+<h2>data upload</h2>
+<pre class="r"><code>#uploaded the raw counts for rna_counts 
+rna_raw_counts &lt;- read.table(&quot;rna_counts.txt&quot;, header=TRUE)</code></pre>
+</div>
+<div id="data-organization" class="section level2">
+<h2>data organization</h2>
+<p>The data frame includes information about the chromosome, the length,
+the Start and End, the strand direction and the two controls, control
+rep 3 at 37 degrees Celsius (37D3) and control rep 2 at 37 degrees
+Celsius (37D2), elevated temperature rep 2 at 46 degrees Celsius (46D2)
+and elevated temperature rep 3 at 46 degrees Celsius (46D3).</p>
+<pre class="r"><code>#selected only GeneID, and the replicates including: 2 controls and 2 treatments
+rna_counts &lt;- select(rna_raw_counts,&quot;Geneid&quot;, &quot;X37D3_control3_sorted.bam&quot;:&quot;X46D3_elevtemp3_sorted.bam&quot;)
+
+#renaming the columns from .bam files to descriptive features
+colnames(rna_counts)[2] =&quot;Control_rep_37C_3&quot;
+colnames(rna_counts)[3] =&quot;Control_rep_37C_2&quot;
+colnames(rna_counts)[4] =&quot;Elevtemp_rep_46C_2&quot;
+colnames(rna_counts)[5] =&quot;Elevtemp_rep_46C_3&quot;
+
+#make the Geneid the row id 
+rna_counts &lt;- rna_counts %&gt;% remove_rownames %&gt;% column_to_rownames(var=&quot;Geneid&quot;)</code></pre>
+</div>
+<div id="metadata-creation" class="section level2">
+<h2>Metadata Creation</h2>
+<pre class="r"><code>#creating a metadata based on our replicates
+
+feature_names &lt;- c(colnames(rna_counts))
+#specify the conditions for each sample
+
+#In my sample names, 37C replicates are controls, 46C samples are treated replicates
+
+condition &lt;- c(&quot;control&quot;, &quot;control&quot;, &quot;treated&quot;, &quot;treated&quot;)
+
+# generate the metadata data frame
+meta_data &lt;- data.frame(feature_names, condition)
+
+# make the sample name the row id
+meta_data &lt;- meta_data %&gt;% remove_rownames %&gt;% column_to_rownames(var=&quot;feature_names&quot;)
+
+meta_data</code></pre>
+<pre><code>##                    condition
+## Control_rep_37C_3    control
+## Control_rep_37C_2    control
+## Elevtemp_rep_46C_2   treated
+## Elevtemp_rep_46C_3   treated</code></pre>
+<pre class="r"><code>rna_counts</code></pre>
+<pre><code>##           Control_rep_37C_3 Control_rep_37C_2 Elevtemp_rep_46C_2
+## PA0263.1                  0                 0                  0
+## PA0527.1                 54                88                107
+## PA0574.1                  0                 0                  0
+## PA0668.1             533249            728033             777571
+## PA0668.2                 10                10                  6
+## PA0668.3                  8                 4                 18
+## PA0668.4            1893258           2403319            2911809
+## PA0668.5                480               778                714
+## PA0714.1                  0                 0                  1
+## PA0729.1                  0                 0                  0
+## PA0826.2              32960             53464              39295
+## PA0836.1                  0                 0                  0
+## PA0887.1                  0                 0                  0
+## PA0905.1                  0                 1                  9
+## PA0905.2                  1                 4                  8
+## PA0905.3                  2                 0                  2
+## PA0922.1                  2                 2                  0
+## PA0976.1                  0                 0                  0
+## PA1013.1                  0                 0                  0
+## PA1030.1                  5                 2                  7
+## PA1112.1                  0                 4                  6
+## PA1324.1                  0                 0                  0
+## PA1530.1                  0                 0                  0
+## PA1781.1                  0                 2                  0
+## PA1796.1                  4                 3                  5
+## PA1796.2                  0                 0                  0
+## PA1796.3                  0                 0                  0
+## PA1796.4                  0                 0                  2
+## PA1804.1                  5                 2                 17
+## PA2570.1                 56                68                186
+## PA2581.1                  0                 2                  0
+## PA2583.1                  0                 0                  0
+## PA2603.1                  0                 0                  0
+## PA2736.1                  0                 0                  0
+## PA2744.1                  0                 0                  0
+## PA2775.1                  1                 0                  0
+## PA2819.1                  5                 4                  2
+## PA2819.2                  0                 0                  0
+## PA2819.3                  0                 0                  0
+## PA2852.1                  0                 0                  0
+## PA2942.1                  0                 0                  0
+## PA2958.1                  0                 0                  0
+## PA3031.1                  0                 0                  0
+## PA3094.1                  1                 0                  0
+## PA3094.2                  0                 0                  3
+## PA3094.3                  0                 0                  2
+## PA3133.1                  0                 0                  0
+## PA3133.2                  0                 0                  0
+## PA3133.3                  0                 0                  0
+## PA3133.4                  0                 0                  0
+## PA3139.1                  0                 4                  4
+## PA3262.1                  0                 0                  2
+## PA3262.2                  0                 0                  2
+## PA3304.1                  0                 0                  2
+## PA3305.1                 50                72                 38
+## PA3366.1                  0                 2                  0
+## PA3368.1                  0                 0                  0
+## PA3621.1                 32                57                 50
+## PA3824.1                  0                 0                  0
+## PA4270.1                  0                 0                  0
+## PA4272.1                  1                 0                  2
+## PA4276.1                  2                 2                  6
+## PA4277.1                  1                 3                  0
+## PA4277.2                  0                 0                  0
+## PA4277.3                  0                 2                  0
+## PA4280.1                487               785                718
+## PA4280.2            1811947           2308845            2827701
+## PA4280.3                  8                 4                 16
+## PA4280.4                 10                12                  4
+## PA4280.5             540609            739073             792552
+## PA4406.1                  5                 1                  1
+## PA4421.1                  0                 0                  0
+## PA4451.1                  4                 4                  7
+## PA4524.1                280               269                 24
+## PA4541.1                  0                 0                  0
+## PA4541.2                  0                 0                  0
+## PA4541.3                  0                 1                  5
+## PA4581.1                  1                 0                  1
+## PA4669.1                  3                 7                  3
+## PA4673.1                  0                 4                  0
+## PA4690.1                489               785                720
+## PA4690.2            1923623           2436176            2961155
+## PA4690.3                  8                 4                 16
+## PA4690.4                 10                11                  4
+## PA4690.5             526460            720020             771424
+## PA4704.1                  0                 0                  0
+## PA4704.2                  0                 0                  0
+## PA4726.1                  4                 7                 19
+## PA4726.11              7893             20010               9993
+## PA4726.2                  2                 0                  0
+## PA4746.1                  2                 5                  5
+## PA4746.2                  4                11                 15
+## PA4758.1                  0                 0                  0
+## PA4802.1                  0                 0                  0
+## PA4937.1                  7                 6                  3
+## PA4937.2                  4                14                  9
+## PA5149.1                  0                 0                  0
+## PA5160.1                  0                 0                  2
+## PA5181.1                  0                 0                  0
+## PA5227.1                413               692                708
+## PA5316.1                  0                 0                  2
+## PA5369.1                480               774                707
+## PA5369.2            1907862           2421318            2938247
+## PA5369.3                  8                 4                 16
+## PA5369.4                 10                11                  4
+## PA5369.5             521110            710746             761493
+##           Elevtemp_rep_46C_3
+## PA0263.1                   0
+## PA0527.1                 232
+## PA0574.1                   0
+## PA0668.1             1323745
+## PA0668.2                   8
+## PA0668.3                  15
+## PA0668.4             4628932
+## PA0668.5                 510
+## PA0714.1                   0
+## PA0729.1                   0
+## PA0826.2               45823
+## PA0836.1                   0
+## PA0887.1                   2
+## PA0905.1                  21
+## PA0905.2                  12
+## PA0905.3                   0
+## PA0922.1                   1
+## PA0976.1                   2
+## PA1013.1                   1
+## PA1030.1                   1
+## PA1112.1                   2
+## PA1324.1                   0
+## PA1530.1                   2
+## PA1781.1                   0
+## PA1796.1                  13
+## PA1796.2                   0
+## PA1796.3                   0
+## PA1796.4                   0
+## PA1804.1                   5
+## PA2570.1                 130
+## PA2581.1                   0
+## PA2583.1                   0
+## PA2603.1                   0
+## PA2736.1                   0
+## PA2744.1                   3
+## PA2775.1                   2
+## PA2819.1                   2
+## PA2819.2                   0
+## PA2819.3                   1
+## PA2852.1                   0
+## PA2942.1                   2
+## PA2958.1                   0
+## PA3031.1                   0
+## PA3094.1                   0
+## PA3094.2                   0
+## PA3094.3                   0
+## PA3133.1                   0
+## PA3133.2                   0
+## PA3133.3                   0
+## PA3133.4                   1
+## PA3139.1                   3
+## PA3262.1                   0
+## PA3262.2                   0
+## PA3304.1                   0
+## PA3305.1                  64
+## PA3366.1                   3
+## PA3368.1                   0
+## PA3621.1                  48
+## PA3824.1                   0
+## PA4270.1                   0
+## PA4272.1                   0
+## PA4276.1                  12
+## PA4277.1                   0
+## PA4277.2                   0
+## PA4277.3                   3
+## PA4280.1                 494
+## PA4280.2             4565182
+## PA4280.3                  15
+## PA4280.4                   8
+## PA4280.5             1338822
+## PA4406.1                  11
+## PA4421.1                   0
+## PA4451.1                  10
+## PA4524.1                  22
+## PA4541.1                   0
+## PA4541.2                   0
+## PA4541.3                   3
+## PA4581.1                   2
+## PA4669.1                   4
+## PA4673.1                   0
+## PA4690.1                 495
+## PA4690.2             4657570
+## PA4690.3                  15
+## PA4690.4                   8
+## PA4690.5             1303787
+## PA4704.1                   0
+## PA4704.2                   0
+## PA4726.1                  12
+## PA4726.11              19373
+## PA4726.2                   1
+## PA4746.1                   7
+## PA4746.2                  19
+## PA4758.1                   4
+## PA4802.1                   0
+## PA4937.1                  14
+## PA4937.2                  16
+## PA5149.1                   0
+## PA5160.1                   0
+## PA5181.1                   2
+## PA5227.1                 995
+## PA5316.1                   0
+## PA5369.1                 498
+## PA5369.2             4634885
+## PA5369.3                  15
+## PA5369.4                   8
+## PA5369.5             1291934</code></pre>
+<pre class="r"><code>#check to see if the metadata rownames and rna_counts columns match: TRUE for both
+all(colnames(rna_counts) %in% rownames(meta_data)) </code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>all(colnames(rna_counts) == rownames(meta_data))</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+</div>
+<div id="differential-analysis" class="section level2">
+<h2>Differential Analysis</h2>
+<p>Create a DESeq object for analyses</p>
+</div>
+<div id="run-differential-expression" class="section level2">
+<h2>Run Differential Expression</h2>
+</div>
+<div id="visualizing-results" class="section level2">
+<h2>Visualizing Results</h2>
+</div>
 </div>
 
 

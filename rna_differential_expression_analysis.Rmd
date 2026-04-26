@@ -16,7 +16,9 @@ library(ggplot2)
 library(dplyr)
 ```
 
-# Differential Expression Analysis
+# Differential Expression Analysis Part 1: Analyzing the raw counts using DESeq2
+
+
 
 ## data upload 
 
@@ -40,16 +42,164 @@ colnames(rna_counts)[3] ="Control_rep_37C_2"
 colnames(rna_counts)[4] ="Elevtemp_rep_46C_2"
 colnames(rna_counts)[5] ="Elevtemp_rep_46C_3"
 
+#make the Geneid the row id 
+rna_counts <- rna_counts %>% remove_rownames %>% column_to_rownames(var="Geneid")
+
 ```
 
 ## Metadata Creation
 
 ```{r metadata}
+#creating a metadata based on our replicates
 
+feature_names <- c(colnames(rna_counts))
+#specify the conditions for each sample
+
+#In my sample names, 37C replicates are controls, 46C samples are treated replicates
+
+condition <- c("control", "control", "treated", "treated")
+
+# generate the metadata data frame
+meta_data <- data.frame(feature_names, condition)
+
+# make the sample name the row id
+meta_data <- meta_data %>% remove_rownames %>% column_to_rownames(var="feature_names")
+
+meta_data
+rna_counts
+
+#check to see if the metadata rownames and rna_counts columns match: TRUE for both
+all(colnames(rna_counts) %in% rownames(meta_data)) 
+all(colnames(rna_counts) == rownames(meta_data))
+```
+
+## Differential Analysis
+
+Create a DESeq object for analyses 
+```{r DESeq obj}
+#create DESeq object using the metadata created, the rna_counts data frame and the design by condition
+d_obj <- DESeqDataSetFromMatrix(countData = rna_counts,
+                              colData = meta_data,
+                              design = ~ condition)
+
+#converting variables with char data types into factors as the object is created.
+
+#looking at the obj, there should be a dim of 106 (genes) and 4 (replicates)
+d_obj
+
+
+#pre-filtering low counts out of the analysis
+
+#this was used to increase speed of transformation and improve visualizations
+
+#filtering out counts less than 10
+#keep <- rowSums(counts(d_obj)) >= 10
+#d_obj <- d_obj[keep,]
+
+#removed 61 features that had less than 10 counts
+d_obj
+
+#setting the reference factor to control manually
+d_obj$condition <- relevel(d_obj$condition, ref = 'control')
+
+#getting normalized counts 
+d_obj <- estimateSizeFactors(d_obj)
+normalized_counts <- counts(d_obj, normalized = TRUE)
+```
+
+
+## Run Differential Expression
+
+
+```{r differential analysis}
+
+#using DESeq() to extract results table with log2 fold changes, p values and adjusted p values
+d_obj <- DESeq(d_obj)
+res <- results(d_obj)
+res
+
+#to output the summary of the table 
+summary(res)
+
+#only one sample 
+sum(res$padj < 0.1, na.rm=TRUE)
+```
+
+
+## Visualizing Results 
+
+```{r visualizations}
+#creating the res results into a dataframe
+data <- data.frame(res)
+head(data)
+
+#creating a PCA plot
+rld <- rlog(d_obj)
+plotPCA(rld)
+
+
+```
+
+
+```{r volcano plot}
+
+
+
+#volcano plot
+
+data <- data %>%
+  mutate(
+  Expression = case_when(log2FoldChange >= log(1) & padj <= 0.05 ~ "Up-regulated",
+  log2FoldChange <= -log(1) & padj <= 0.05 ~ "Down-regulated",
+  TRUE ~ "Unchanged")
+  )
+head(data)
+
+
+
+#getting the top 10
+top <- 10
+# we are getting the top 10 up and down regulated genes by filtering the column Up-regulated and Down-regulated and sorting by the adjusted p-value. 
+top_genes <- bind_rows(
+  data %>%
+  filter(Expression == 'Up-regulated') %>%
+  arrange(padj, desc(abs(log2FoldChange))) %>%
+  head(top),
+  data %>%
+  filter(Expression == 'Down-regulated') %>%
+  arrange(padj, desc(abs(log2FoldChange))) %>%
+  head(top)
+  )
+# create a datframe just holding the top 10 genes
+Top_Hits = head(arrange(data,pvalue),10)
+Top_Hits
+
+
+data$label = if_else(rownames(data) %in% rownames(Top_Hits), rownames(data), "")
+# basic plot
+p1 <- ggplot(data, aes(log2FoldChange, -log(pvalue,10))) + # -log10 conversion
+geom_point( size = 2/5) +
+xlab(expression("log"[2]*"FC")) +
+ylab(expression("-log"[10]*"P-Value")) +
+xlim(-4.5, 4.5)
+p1
+
+
+#basic plot with line + red for p < 0.05
+p2 <- ggplot(data, aes(log2FoldChange, -log(pvalue,10))) + # -log10 conversion
+geom_point(aes(color = Expression), size = 2/5) +
+#geom_hline(yintercept= -log10(0.05), linetype="dashed", linewidth = .4) +
+xlab(expression("log"[2]*"FC")) +
+ylab(expression("-log"[10]*"P-Value")) +
+scale_color_manual(values = c("firebrick3", "black", "firebrick3")) +
+xlim(-4.5, 4.5) +
+theme(legend.position = "none")
+p2
 
 
 
 ```
 
 
+# Differential Expression Analysis Part 2: Analyzing gene expression using EdgeR
 
