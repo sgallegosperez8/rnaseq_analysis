@@ -14,6 +14,12 @@ library(tidyverse)
 library(DESeq2)
 library(ggplot2)
 library(dplyr)
+library(limma)
+library(Glimma)
+library(edgeR)
+#associated annotation data for pseudomonas arguenosas from Bioconductor
+#install.packages("refseqR")
+library(biomaRt)
 ```
 
 # Differential Expression Analysis Part 1: Analyzing the raw counts using DESeq2
@@ -202,4 +208,91 @@ p2
 
 
 # Differential Expression Analysis Part 2: Analyzing gene expression using EdgeR
+
+## Uploading the data 
+
+```{r uploading the data}
+#upload the data 
+rna_data <- read.table("RNA_data.txt",header=TRUE)
+```
+
+The data frame includes information about the chromosome, the length, the Start and End, the strand direction, three controls, all at temperature 37C (36D1, 37D2, 37D3), and three treatments with elevated temperature at 46C (46D1, 46D2, 46D3).
+
+
+```{r maybe delete?}
+#currently remove unecessary columns for now 
+rna_data2 <- rna_data[c(-2:-6)]
+
+#change the row indices to the geneid names
+rna_data2 <- rna_data2 %>% remove_rownames %>% column_to_rownames(var="Geneid")
+
+#create a column for gene lengths?
+#rna_data2["gene_length"] <- rna_data["End"] - rna_data["Start"]
+
+```
+
+
+
+```{r create DGE object}
+x <- DGEList(rna_data2)
+x
+class(x)
+#there are 106 genes and 6 features: 3 controls, 3 treatments
+dim(x)
+```
+
+## organising sample information
+```{r creating metadata}
+#created column names by substring to temp and relicate numbers
+samplenames <- substring(colnames(x), 2, 5)
+samplenames
+
+colnames(x) <- samplenames
+group <- as.factor(c("control", "control", "control", "heat_exp_treatment",
+                     "heat_exp_treatment", "heat_exp_treatment"))
+x
+x$samples$group <- group
+x$samples
+x
+
+
+```
+
+
+Created another dataframe for annotated gene information
+
+```{r genes dataframe}
+geneid <- rownames(x)
+geneid
+
+# 2. Read the GFF/GTF file (downloaded from Pseudomonas.com)
+gff <- import("genomic.gff")
+
+# 3. Convert to data frame and filter for gene names
+gff_df <- as.data.frame(gff)
+# Assuming IDs are in 'gene_id' or 'Name' column and Type is 'gene'
+gene_map <- gff_df[gff_df$type == "gene",]
+
+#change name from Name to geneid to merge with my_genes column 
+names(gene_map)[13] <- "geneid"
+# 4. Merge with your gene list
+my_genes <- data.frame(geneid)
+genes <- merge(gene_map, my_genes, by = "geneid")
+
+x$genes <- genes
+x
+```
+
+
+```{r transformations}
+
+
+
+```
+
+
+
+
+
+
 
