@@ -1,41 +1,27 @@
-# NCBI Datasets
+# Differential Expression Analysis of *P. Aeruginosa* PAO1 under Heat Shock Treatment
 
-https://www.ncbi.nlm.nih.gov/datasets
+## Main Objective
+The primary goal of this analysis was to evaluate the transcriptomic response of **Pseudomonas Aeruginosa PAO1** when subjected to **heat shock treatment** (shaken and kept at 46°C) compared to a control group (37°C) [cite: 5, 22]. By utilizing modern bioinformatic tools, the study aimed to evaluate the differences and similarities between this updated analysis and the original 2016 study by Chan et al. [cite: 18, 19].
 
-This zip archive contains an NCBI Datasets Data Package.
+## Bioinformatic Pipeline & Tools
+The analysis employed a suite of modern bioinformatic tools to process raw sequence data and identify differentially expressed genes:
 
-NCBI Datasets Data Packages can include sequence, annotation and other data files, and metadata in one or more data report files.
-Data report files are in JSON Lines format.
+| Stage | Tool | Purpose |
+| :--- | :--- | :--- |
+| **Quality Control** | **FastQC** (v0.11.2) | Evaluated the quality of raw sequences [cite: 25]. |
+| **Preprocessing** | **TrimGalore** (v2.2.0) | Automatically trimmed sequence primers [cite: 25]. |
+| **Indexing & Alignment** | **STAR** (v2.7.11b) | Created a genomic index and aligned samples to the reference genome (GCF_000006765.1) [cite: 26]. |
+| **File Processing** | **samtools** (v1.23.1) | Sorted resulting Binary Alignment Map (BAM) files [cite: 27]. |
+| **Quantification** | **featureCounts** (v2.1.1) | Produced raw gene counts using the reference genome annotation [cite: 27, 31]. |
+| **Differential Analysis** | **DESeq2** | Performed differential gene expression analysis [cite: 28]. |
+| **Visualization** | **ggplot2, EnhancedVolcano, pheatmap** | Generated PCA plots, volcano plots, and heatmaps in R (v4.6.0) [cite: 28]. |
 
----
-## FAQs
-### Where is the data I requested?
+## Key Findings
+* **High Alignment Accuracy:** The pipeline achieved an average **99.7% successful alignment** across all 6 samples, significantly improving upon the 90% alignment reported in the original study [cite: 32].
+* **Clear Group Differentiation:** Principal Component Analysis (PCA) revealed distinct clustering between the control and 'heat-shock' groups, indicating significant transcriptomic shifts [cite: 39].
+* **Significant Gene Regulation:** The analysis identified a large number of up-regulated and down-regulated genes (2259 variables total in the volcano plot) involved in the heat-shock response [cite: 45].
+* **Improved Methodology:** Transitioning from TopHat2/Cufflinks to STAR/DESeq2 provided higher mapping efficiency and a more robust framework for handling large computational data [cite: 16, 35, 36].
 
-Your data is in the subdirectory `ncbi_dataset/data/` contained within this zip archive.
-
-### I still can't find my data, can you help?
-
-We have identified a bug affecting Mac Safari users. When downloading data from the NCBI Datasets web interface, you may see only this README file after the download has completed (while other files appear to be missing).
-As a workaround to prevent this issue from recurring, we recommend disabling automatic zip archive extraction in Safari until Apple releases a bug fix.
-For more information, visit:
-https://www.ncbi.nlm.nih.gov/datasets/docs/reference-docs/mac-zip-bug/
-
-### How do I work with JSON Lines data reports?
-
-Visit our JSON Lines data report documentation page:
-https://www.ncbi.nlm.nih.gov/datasets/docs/v2/tutorials/working-with-jsonl-data-reports/
-
-### What is NCBI Datasets?
-
-NCBI Datasets is a resource that lets you easily gather data from across NCBI databases. Find and download gene, transcript, protein and genome sequences, annotation and metadata.
-
-### Where can I find NCBI Datasets documentation?
-
-Visit the NCBI Datasets documentation pages:
-https://www.ncbi.nlm.nih.gov/datasets/docs/
-
----
-
-National Center for Biotechnology Information
-National Library of Medicine
-info@ncbi.nlm.nih.gov
+## References
+* Chan et al. (2016) - Original Study.
+* Reference Genome: GCF_000006765.1.
