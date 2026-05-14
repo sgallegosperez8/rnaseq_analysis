@@ -1,0 +1,121 @@
+---
+title: "RNA seq analysis on P. Aeruginosa PAO1 Control vs Heat Shock Treatment"
+author: "Samantha Gallegos Perez"
+format: html
+---
+
+
+## Use prefetch SRA# with fasterq-dump SRA for all six samples
+```bash
+Prefetch SRR3032163 fasterq-dump SRR3032163 #(37D1_control1)
+prefetch SRR3032164 fasterq-dump SRR3032164 #(37D2_control2)
+prefetch SRR3032165 fasterq-dump SRR3032165 #(37D3_control3)
+prefetch SRR3032166 fasterq-dump SRR3032166 #(46D1_elevtemp)
+prefetch SRR3032167 fasterq-dump SRR3032167 #(46D2_elevtemp )
+prefetch SRR3032168 fasterq-dump SRR3032168 #(46D3_elevtemp)
+```
+## Assess quality of reads through QualityQC
+
+```bash
+fastqc ./SRA/*.fastq -o ./fastqc-results
+```
+## Trim adaptor sequences with TrimGalore
+
+```bash
+trim_galore --paired --quality 30 ./SRA/37D1_control1_1.fastq ./SRA/37D1_control1_2.fastq
+trim_galore --paired --quality 30 ./SRA/37D2_control2_1.fastq ./SRA/37D2_control2_2.fastq
+trim_galore --paired --quality 30 ./SRA/37D3_control3_1.fastq ./SRA/37D3_control3_2.fastq
+trim_galore --paired --quality 30 ./SRA/46D1_elevtemp_1.fastq ./SRA/46D1_elevtemp_2.fastq
+trim_galore --paired --quality 30 ./SRA/46D2_elevtemp_1.fastq ./SRA/46D2_elevtemp_2.fastq
+trim_galore --paired --quality 30 ./SRA/46D3_elevtemp_1.fastq ./SRA/46D3_elevtemp_2.fastq
+```
+
+
+
+## Run STAR by creating an index 
+```bash
+STAR --runThreadN 8 \
+--runMode genomeGenerate \
+--genomeDir ./genome-index3 \
+--genomeFastaFiles ./genomic.fna \
+--sjdbGTFfile ./genomic.gtf \
+--sjdbOverhang 149 \
+--genomeSAindexNbases 10
+```
+
+## Align with STAR producing .BAM files
+
+```bash
+STAR --runThreadN 8 \
+	--genomeDir ../genome-index3 \
+	--readFilesIn ../37D1_control1_1_val_1.fq ../37D1_control1_2_val_2.fq \
+	--outSAMtype BAM SortedByCoordinate \
+	--limitBAMsortRAM 2101143518 \
+	--quantMode GeneCounts \
+	--outFileNamePrefix 37D1_control1_
+
+
+ 
+STAR --runThreadN 8 \
+	--genomeDir ../genome-index3 \
+	--readFilesIn ../37D2_control2_1_val_1.fq ../37D2_control2_2_val_2.fq \
+	--outSAMtype BAM SortedByCoordinate \
+	--limitBAMsortRAM 2101143518 \
+	--quantMode GeneCounts \
+	--outFileNamePrefix 37D2_control2_
+
+
+STAR --runThreadN 8 \
+	--genomeDir ../genome-index3 \
+	--readFilesIn ../37D3_control3_1_val_1.fq ../37D3_control3_2_val_2.fq \
+	--outSAMtype BAM SortedByCoordinate \
+	--limitBAMsortRAM 2101143518 \
+	--quantMode GeneCounts \
+	--outFileNamePrefix 37D3_control3_
+
+
+STAR --runThreadN 8 \
+	--genomeDir ../genome-index3 \
+	--readFilesIn ../46D1_elevtemp_1_val_1.fq ../46D1_elevtemp_2_val_2.fq \
+	--outSAMtype BAM SortedByCoordinate \
+	--limitBAMsortRAM 2101143518 \
+	--quantMode GeneCounts \
+	--outFileNamePrefix 46D1_elevtemp_
+
+STAR --runThreadN 8 \
+	--genomeDir ../genome-index3 \
+	--readFilesIn ../46D2_elevtemp_1_val_1.fq ../46D2_elevtemp_2_val_2.fq \
+	--outSAMtype BAM SortedByCoordinate \
+	--limitBAMsortRAM 2101143518 \
+	--quantMode GeneCounts \
+	--outFileNamePrefix 46D2_elevtemp2_
+
+
+STAR --runThreadN 8 \
+	--genomeDir ../genome-index3 \
+	--readFilesIn ../46D3_elevtemp_1_val_1.fq ../46D3_elevtemp_2_val_2.fq \
+	--outSAMtype BAM SortedByCoordinate \
+	--limitBAMsortRAM 2101143518 \
+	--quantMode GeneCounts \
+	--outFileNamePrefix 46D3_elevtemp3_
+
+```
+
+
+## Sorted using samtools
+
+```bash
+samtools sort -n ./STAR/37D1_control1_Aligned.sortedByCoord.out.bam -o 37D1_control1_sorted.bam
+samtools sort -n ./STAR/37D3_control3_Aligned.sortedByCoord.out.bam -o 37D3_control3_sorted.bam 
+samtools sort -n ./STAR/37D2_control2_Aligned.sortedByCoord.out.bam -o 37D2_control2_sorted.bam 
+samtools sort -n ./STAR/46D1_elevtemp_Aligned.sortedByCoord.out.bam -o 46D1_elevtemp_sorted.bam
+samtools sort -n ./STAR/46D2_elevtemp2_Aligned.sortedByCoord.out.bam -o 46D2_elevtemp2_sorted.bam 
+samtools sort -n ./STAR/46D3_elevtemp3_Aligned.sortedByCoord.out.bam -o 46D3_elevtemp3_sorted.bam
+```
+
+## Run featureCounts on all sorted bam files
+
+```bash
+featureCounts -p -s 1 -t gene -M -g gene_id  -a ./genomic.gtf  -o counts3.txt 37D1_control1_sorted.bam 37D2_control2_sorted.bam 37D3_control3_sorted.bam 46D1_elevtemp_sorted.bam 46D2_elevtemp2_sorted.bam 46D3_elevtemp3_sorted.bam
+```
+
