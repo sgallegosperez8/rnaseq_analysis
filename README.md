@@ -23,5 +23,5 @@ The analysis employed a suite of modern bioinformatic tools to process raw seque
 * **Improved Methodology:** Transitioning from TopHat2/Cufflinks to STAR/DESeq2 provided higher mapping efficiency and a more robust framework for handling large computational data.
 
 ## References
-* Chan et al. (2016) - Original Study.
+* Chan et al. (2016) - [Transcriptome analysis of Pseudomonas aeruginosa PAO1 grown at both body and elevated temperatures](https://pmc.ncbi.nlm.nih.gov/articles/PMC4957987/#ref-2).
 * Reference Genome: [GCF_000006765.1](https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000006765.1/)
