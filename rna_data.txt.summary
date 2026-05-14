@@ -1,5 +1,5 @@
 Status	37D1_control1_sorted.bam	37D2_control2_sorted.bam	37D3_control3_sorted.bam	46D1_elevtemp_sorted.bam	46D2_elevtemp2_sorted.bam	46D3_elevtemp3_sorted.bam
-Assigned	16065085	12545531	9701930	13717001	14795450	23813832
+Assigned	16146653	12602434	9750602	13790133	14864600	23927771
 Unassigned_Unmapped	0	0	0	0	0	0
 Unassigned_Read_Type	0	0	0	0	0	0
 Unassigned_Singleton	0	0	0	0	0	0
@@ -10,6 +10,6 @@ Unassigned_Duplicate	0	0	0	0	0	0
 Unassigned_MultiMapping	0	0	0	0	0	0
 Unassigned_Secondary	0	0	0	0	0	0
 Unassigned_NonSplit	0	0	0	0	0	0
-Unassigned_NoFeatures	133320	87154	81439	108702	118795	185072
+Unassigned_NoFeatures	16980	12768	11128	16150	16888	40139
 Unassigned_Overlapping_Length	0	0	0	0	0	0
-Unassigned_Ambiguity	3298	1417	1980	1252	2340	2006
+Unassigned_Ambiguity	38070	18900	23619	20672	35097	33000

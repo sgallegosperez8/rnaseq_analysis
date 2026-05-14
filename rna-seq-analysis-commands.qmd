@@ -1,0 +1,10 @@
+step 1 : uses prefetch SRA# with fasterq-dump SRA for all four samples
+
+```bash
+Prefetch SRR3032163 fasterq-dump SRR3032163 #(37D1_control1)
+prefetch SRR3032164 fasterq-dump SRR3032164 #(37D2_control2)
+prefetch SRR3032165 fasterq-dump SRR3032165 #( 37D3_control3)
+prefetch SRR3032166 fasterq-dump SRR3032166 #(46D1_elevtemp)
+prefetch SRR3032167 fasterq-dump SRR3032167 #(46D2_elevtemp )
+prefetch SRR3032168 fasterq-dump SRR3032168 #(46D3_elevtemp)
+```
